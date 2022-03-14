@@ -1,6 +1,6 @@
 # Learning_Algorithm
 - 2022_1_KNU_Algorithm
-- Python기반으로 알고리즘 문제를 풀려고 합니다.
+- C 혹은 Python언어로 알고리즘 문제를 풀려고 합니다.
 
 ## Text book
 - title: Foundations of Algorithms 5/E
