@@ -1,6 +1,6 @@
 # Learning_Algorithm
 - 2022_1_KNU_Algorithm
-- This is a repository for Data structure implement in C language.
+- This is a repository for Data structure implement in C language or Python
 
 ## Text book
 - title: Foundations of Algorithms 5/E
