@@ -5,7 +5,7 @@
 // j: index for sorted right-hand lists
 // k: index to sorted list
 /* The process of merging two adjacent arrays, list[left...mid] and list[mid+1...right] */
-/* Actually, the process of sorting numbers */
+/* (Actually, the process of sorting numbers) */
 
 // Global variable
 int sorted[MAX_SIZE]; // additional space requirement
@@ -28,7 +28,7 @@ int main()
         scanf("%d", &list[i]);
     }
 
-    // perform merge sort(left: beginning of an array = 0, right: end of an arrangement = 7)
+    // perform merge sort(left: beginning of an array = 0, right: end of an array = 7)
     merge_sort(list, 0, n-1);
 
     // output the number of calls
@@ -38,6 +38,8 @@ int main()
     for(int i = 0; i< n; i++) {
         printf("%d ", list[i]);
     }
+
+    return 0;
 }
 
 // Functions

@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "3.C": "cpp"
+        "3.C": "cpp",
+        "stdio.h": "c",
+        "ios": "c"
     }
 }
