@@ -2,6 +2,9 @@
     "files.associations": {
         "3.C": "cpp",
         "stdio.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "algorithm": "cpp"
     }
 }
