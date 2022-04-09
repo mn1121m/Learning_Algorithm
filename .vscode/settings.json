@@ -6,6 +6,8 @@
         "chrono": "cpp",
         "limits": "cpp",
         "algorithm": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "stdbool.h": "c",
+        "stdlib.h": "c"
     }
 }
