@@ -10,6 +10,8 @@
         "stdbool.h": "c",
         "stdlib.h": "c",
         "iostream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "iterator": "cpp"
     }
 }
