@@ -1,6 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-// 2018117610 moonjunyong
-
 #include <stdio.h>
 #define MAX 17
 #define INF 100000
