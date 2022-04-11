@@ -9,7 +9,7 @@
 
 
 ## Text book
-- title: Foundations of Algorithms 5/E
-- author: Neapolitan, Richard
+- Title: Foundations of Algorithms 5/E
+- Author: Neapolitan, Richard
 
-![Algorithm image](http://image.kyobobook.co.kr/images/book/large/190/l9781284049190.jpg)
+  <img width="200" alt="algorithm-image" src="http://image.kyobobook.co.kr/images/book/large/190/l9781284049190.jpg">
