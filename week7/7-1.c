@@ -18,6 +18,7 @@ void prims();
 // Main
 int main(){
     int i, j, total_cost, m;
+    // input: 정점의 개수 n, 간선의 개수 m
     scanf("%d %d", &n, &m);
 
     for (i = 0; i < n; i++) {
@@ -25,7 +26,7 @@ int main(){
             G[i][j] = 0;
         }
     }
-
+    // input: u v w
     int num1, num2, num3;
     for (i = 0; i < m; i++)
     {
@@ -33,9 +34,9 @@ int main(){
         G[num1 - 1][num2 - 1] = num3;
         G[num2 - 1][num1 - 1] = num3;
     }
-    //printf("1 1 1 1\n");
+    // prim()
     prims();
-
+    // 이후로, 프림 알고리즘 F 집합에 포함되는 간선을 순서대로 출력
     for (i = 0; i < n - 1; i++) {
         printf("%d %d %d\n", F[i][0], F[i][1], F[i][2]);
     }
@@ -68,7 +69,8 @@ void prims()
         temp[i] = 0;
     }
 
-    for (int z = 0; z < n - 1; z++)
+    //printf("1 1 1 1\n");
+    for (int z = 0; z < n-1; z++)
     {
         min = INF;
         for (i = 1; i < n; i++)
@@ -94,11 +96,9 @@ void prims()
             }
         distance[v] = -1;
 
-        for (i = 1; i < n - 1; i++) {
+        for (i = 1; i < n-1; i++) {
             printf("%d ", nearest[i]);
         }
-        printf("%d", nearest[n - 1]);
-        printf("\n");
-
+        printf("%d\n", nearest[n - 1]);
     }
 }
