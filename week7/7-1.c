@@ -1,5 +1,3 @@
-// 2018117610 moonjunyong
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -51,6 +49,16 @@ void prims()
     int u, v, min, distance[MAX], nearest[MAX];
     int temp[MAX], i, j;
 
+    for(i = 0; i < 4; i++) {
+        nearest[i] = 1;
+        printf("%d", nearest[i]);
+        if( i == 4) 
+            break;
+        else 
+            printf(" ");
+    }
+    printf("\n");
+
     for (i = 0; i < n; i++)
         for (j = 0; j < n; j++)
         {
@@ -69,7 +77,7 @@ void prims()
         temp[i] = 0;
     }
 
-    //printf("1 1 1 1\n");
+    
     for (int z = 0; z < n-1; z++)
     {
         min = INF;
