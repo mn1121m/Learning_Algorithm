@@ -1,6 +1,6 @@
 # Learning_Algorithm
 - 2022_1_KNU_Algorithm
-- This is a repository for Data structure implement in C++ language(or C) or Python
+- This is a repository for Data structure implement in C++ language(or C)
 
 
 ## Study
