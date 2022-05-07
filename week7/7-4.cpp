@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//  Functions
 vector<int> sol(int n, vector<int> S, vector<int> F)
 {
     vector<int> R;
@@ -18,6 +19,7 @@ vector<int> sol(int n, vector<int> S, vector<int> F)
     return R;
 }
 
+//  Main
 int main()
 {
     int n;

@@ -4,12 +4,14 @@
 using namespace std;
 #define INF 9999
 
+//  Global variable
 typedef vector<vector<int> > matrix_t;
 typedef vector<pair<int, int> > set_of_edges;
 typedef pair<int, int> edge_t;
 
 int sum = 0;
 
+//  Functions
 void prim(int n, matrix_t& W, set_of_edges& F)
 {
     int vnear, min;
@@ -49,7 +51,7 @@ void prim(int n, matrix_t& W, set_of_edges& F)
             }
         }
     }
-    // nearest 마지막 출력
+    //  nearest 마지막 출력
     for (int i = 2; i<=n; i++) {
         cout << nearest[i];
         if(i!=n)
@@ -58,6 +60,8 @@ void prim(int n, matrix_t& W, set_of_edges& F)
             cout << endl;
     }
 }
+
+//  Main
 int main() {
     int n, m, u, v, w;
     matrix_t W;

@@ -4,10 +4,13 @@
 using namespace std;
 
 #define INF 9999
+
+//  Global variable
 typedef vector<vector<int> > matrix_t;
 typedef pair<int,int> edge_t;
 typedef vector<pair<int, int> > set_of_edges;
 
+//  Functions
 vector<int> dijkstra(int n, matrix_t& W, set_of_edges& E, set_of_edges& F)
 {
     int vnear, min, u = 1;
@@ -76,6 +79,7 @@ void print_route(vector<int> touch, int v)
     cout << " " << v;
 }
 
+//  Main
 int main() {
     set_of_edges E, F;
     matrix_t W;

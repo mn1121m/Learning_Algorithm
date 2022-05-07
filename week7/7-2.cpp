@@ -4,8 +4,8 @@
 
 using namespace std;
 
-vector<int> dset;
 
+//  Data structure
 typedef struct edge
 {
     int u, v, w;
@@ -19,9 +19,15 @@ struct edge_compare
         else return false;
     }
 };
+
+//  Global variable
+vector<int> dset;
+
 typedef vector<edge_t> set_of_edges;
 typedef priority_queue<edge_t, vector<edge_t>, edge_compare> PriorityQueue;
 
+
+//  Functions
 void dset_init(int n)
 {
     dset.resize(n + 1);
@@ -64,6 +70,8 @@ void kruskal(int n, int m, set_of_edges& E, set_of_edges& F)
     }
 }
 
+
+//  Main
 int main()
 {
     set_of_edges E, F;
