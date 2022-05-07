@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
 #define INF 9999
 
 typedef vector<vector<int> > matrix_t;
 typedef vector<pair<int, int> > set_of_edges;
 typedef pair<int, int> edge_t;
+
 int sum = 0;
 
 void prim(int n, matrix_t& W, set_of_edges& F)
