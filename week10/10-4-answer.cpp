@@ -20,8 +20,11 @@ int main()
 
     //  input
     cin >> n >> m;
+    
+    // 초기화
     W.resize(n + 1, vector<int>(n + 1));
     vindex.resize(n);
+
     for (int i = 1; i <= m; i++)
     {
         int s, e;
