@@ -4,44 +4,18 @@
 
 using namespace std;
 
+// Data structure
 typedef struct item {
     int weight;
     int profit;
-    int profit_per_unit;
+    int profit_per_unit;    // = profit / weight
 } item_t;
 
-bool cmp(item_t i, item_t j)
-{
-    if (i.profit_per_unit > j.profit_per_unit)
-        return true;
-    return false;
-}
+// Functions
+bool cmp(item_t i, item_t j);
+void knapsack(int n, vector<item_t> items, vector<pair<int, int> >& WP, int& maxprofit, int& w);
 
-void knapsack(int n, vector<item_t> items, vector<pair<int, int>>& WP, int& maxprofit, int& w)
-{
-    int totweight = 0;
-    maxprofit = 0;
-    WP.clear();
-
-    for (int i = 0; i < n; i++) {
-        if(totweight + items[i].weight <= w)
-        {
-            maxprofit += items[i].profit;
-            totweight += items[i].weight;
-            WP.push_back(make_pair(items[i].weight, items[i].profit));
-        }
-        else
-        {
-            int profit = (w - totweight) * items[i].profit_per_unit;
-            int weight = (w - totweight);
-            maxprofit += profit;
-            totweight += weight;
-            WP.push_back(make_pair(weight, profit));
-            break;
-        }
-    }
-}
-
+// Main
 int main()
 {
     int n, w, p;
@@ -49,7 +23,7 @@ int main()
     int maxprofit;
     vector<item_t> items;
     vector<int> W; // 배낭 무게
-    vector<pair<int, int>> WP; // 담은 아이템 무게와 이익쌍
+    vector<pair<int, int> > WP; // 담은 아이템 무게와 이익쌍
 
     items.clear();
     W.clear();
@@ -102,4 +76,36 @@ int main()
     }
 
     return 0;
+}
+
+bool cmp(item_t i, item_t j)
+{
+    if (i.profit_per_unit > j.profit_per_unit)
+        return true;
+    return false;
+}
+
+void knapsack(int n, vector<item_t> items, vector<pair<int, int> >& WP, int& maxprofit, int& w)
+{
+    int totweight = 0;
+    maxprofit = 0;
+    WP.clear();
+
+    for (int i = 0; i < n; i++) {
+        if(totweight + items[i].weight <= w)
+        {
+            maxprofit += items[i].profit;
+            totweight += items[i].weight;
+            WP.push_back(make_pair(items[i].weight, items[i].profit));
+        }
+        else
+        {
+            int profit = (w - totweight) * items[i].profit_per_unit;
+            int weight = (w - totweight);
+            maxprofit += profit;
+            totweight += weight;
+            WP.push_back(make_pair(weight, profit));
+            break;
+        }
+    }
 }
