@@ -2,9 +2,9 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-int n,W, maxprofit;
-float bound;
 
+
+// Data structure
 typedef struct item* item_ptr;
 typedef struct item{
     int weight;
@@ -12,11 +12,17 @@ typedef struct item{
     int profit_per_unit;
 }item_t;
 
+
+// Global variable
 vector<item_t> items;
 vector<item_t> printweight;
 vector<int> include;
 vector<int> bestset;
 
+int n,W, maxprofit;
+float bound;
+
+// Functions
 bool compare_item(item_t i, item_t j) {
     if (i.profit_per_unit > j.profit_per_unit)
         return true;
@@ -61,6 +67,7 @@ void knapsack4(int i,int profit,int weight){
     }
 }
 
+// Main
 int main(){
     cin >> n >> W;
     items.resize(n+1);
