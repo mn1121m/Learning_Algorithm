@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <map>
 using namespace std;
-int n, W, T , maxprofit;
 
+
+// Data structure
 typedef struct item* item_ptr;
 typedef struct item{
     int weight;
@@ -12,9 +13,13 @@ typedef struct item{
     int profit_per_unit;
 }item_t;
 
+
+// Global variable
 vector<item_t> items;
 
+int n, W, T , maxprofit;
 
+// Functions
 bool compare_item(item_t i, item_t j) {
     if (i.profit_per_unit > j.profit_per_unit)
         return true;
@@ -34,6 +39,8 @@ int knapsack3(int n, int W, vector<item_t> &items, map<pair<int,int>, int> &P){
     return P[make_pair(n,W)];
 }
 
+
+// Main
 int main(){
     cin >> n;
     items.resize(n+1);
