@@ -1,92 +1,74 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
-#define MAX 128
+#include <map>
 using namespace std;
 
+
 // Data structure
-typedef struct item {
+typedef struct item* item_ptr;
+typedef struct item{
     int weight;
     int profit;
-    int profit_per_unit;    // = profit / weight
-} item_t;
+    int profit_per_unit;
+}item_t;
 
-// Functions
-void knapsack2(int n, vector<int> W, int w[], int p[], int P[][MAX]);
-int max(int n, int m);
 
 // Global variable
+vector<item_t> items;
+
+int n, W, T , maxprofit;
+
+// Functions
+bool compare_item(item_t i, item_t j) {
+    if (i.profit_per_unit > j.profit_per_unit)
+        return true;
+    return false;
+};
+
+int knapsack3(int n, int W, vector<item_t> &items, map<pair<int,int>, int> &P){
+    if(n==0 || W <=0)
+        return 0;
+
+    int lvalue = (P.find(make_pair(n-1,W)) != P.end()) ?
+        P[make_pair(n-1, W)] : knapsack3(n-1,W,items,P);
+    int rvalue = (P.find(make_pair(n-1,W-items[n].weight)) != P.end()) ?
+        P[make_pair(n-1,W)] : knapsack3(n-1,W-items[n].weight,items,P);
+    P[make_pair(n,W)] = (items[n].weight >W) ? lvalue : max(lvalue,items[n].profit +rvalue);
+
+    return P[make_pair(n,W)];
+}
 
 
 // Main
-int main()
-{
-    int n; //  number
-    int w[MAX] = {0, }, p[MAX] = {0, };    // weight, profit
-    int wn; // 배낭 무게 개수
-    int maxProfit;  // 배낭에 담을 수 있는 최대 이익
-    vector<int> W;  // 배낭 무게
-    int P[MAX][MAX]; // 테이블
-    vector<item_t> items;
-
-    
-    items.clear();
-    W.clear();
-    
-    // 아이템 초기화
+int main(){
     cin >> n;
+    items.resize(n+1);
+    map<pair<int,int>, int> P;
 
-    for(int i = 0; i < n; i++) {
-        item_t temp;
-        items.push_back(temp);
+    for(int i=1;i<=n;i++){
+        cin >>items[i].weight;
+    }
+    for(int i=1;i<=n;i++){
+        cin >>items[i].profit;
+    }
+    for(int i=1;i<=n;i++){
+        items[i].profit_per_unit = items[i].profit / items[i].weight;
     }
 
-    for(int i = 0; i < n; i++) {
-        cin >> w[i];
-        items[i].weight = w[i];
-    }
+    sort(items.begin()+1,items.end(),compare_item);
 
-    for(int i = 0; i < n; i++) {
-        cin >> p[i];
-        items[i].profit = p[i];
-    }
-
-    // 무게당 이익 오름차순 정렬
-    sort(items.begin(), items.end());
-
-    // 배낭 무게 개수 초기화
-    cin >> wn;
-
-    for(int i = 0; i < wn; i++) {
-        cin >> W[i];
-        // Knapscak 수행 후 결과 출력
-        knapsack2(n, W, w, p, P);
-        cout << maxProfit << endl;
-        cout << P[n][w] << " "<< P[n-1][W] << " "<<P[n-1][W - w[n]] << endl;
-    }
+    cin >> T;
     
+    while(T-- >0){
 
-    return 0;
-}
+        cin >> W;
+        knapsack3(n,W,items,P);
+        cout << P[make_pair(n,W)] << endl;
 
-// Functions
-void knapsack2(int n, vector<int> W, int w[], int p[], int P[][MAX])
-{
-    for(int i = 0; i < n; i++)
-        P[i][0] = 0;
-    for(int j = 1; j < W; j++)
-        P[0][j] = 0;
-    for(int i = 1; i <= n; i++)
-        for(int j = 1; j <= W; j++)
-            P[i][j] = (w[i] > j) ? P[i-1][j] : max(P[i-1][j], p[i] + P[i-1][j - w[i]]);
-}
-
-int max(int n, int m) {
-	if (n > m) {
-		return n;
-	}
-	else {
-		return m;
-	}
+        for(auto it = P.begin(); it!=P.end();it++){
+            cout << it->first.first << " " << it->first.second << " " << it->second << endl; 
+        } 
+        P.clear();
+    }
 }
