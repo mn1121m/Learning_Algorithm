@@ -1,74 +1,94 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <map>
+#include <algorithm>
+
 using namespace std;
 
-
-// Data structure
-typedef struct item* item_ptr;
-typedef struct item{
-    int weight;
-    int profit;
-    int profit_per_unit;
-}item_t;
-
-
-// Global variable
-vector<item_t> items;
-
-int n, W, T , maxprofit;
-
-// Functions
-bool compare_item(item_t i, item_t j) {
-    if (i.profit_per_unit > j.profit_per_unit)
-        return true;
-    return false;
-};
-
-int knapsack3(int n, int W, vector<item_t> &items, map<pair<int,int>, int> &P){
-    if(n==0 || W <=0)
+int knapsack3(int n, int W, vector<pair<int,int>> wp, map<pair<int, int>, int> &P)
+{
+    if(n == 0 || W <= 0)
         return 0;
-
-    int lvalue = (P.find(make_pair(n-1,W)) != P.end()) ?
-        P[make_pair(n-1, W)] : knapsack3(n-1,W,items,P);
-    int rvalue = (P.find(make_pair(n-1,W-items[n].weight)) != P.end()) ?
-        P[make_pair(n-1,W)] : knapsack3(n-1,W-items[n].weight,items,P);
-    P[make_pair(n,W)] = (items[n].weight >W) ? lvalue : max(lvalue,items[n].profit +rvalue);
-
-    return P[make_pair(n,W)];
+    int lvalue = (P.find(make_pair(n-1, W)) != P.end()) ?
+        P[make_pair(n-1, W)] : knapsack3(n-1, W, wp, P);
+    int rvalue = (P.find(make_pair(n-1, W-wp[n].first)) != P.end()) ?
+        P[make_pair(n-1, W)] : knapsack3(n-1, W-wp[n].first, wp, P);
+    P[make_pair(n, W)] = (wp[n].first > W) ? lvalue : max(lvalue, wp[n].second + rvalue);
+    return P[make_pair(n, W)];
 }
 
-
-// Main
-int main(){
+int main() {
+    int n;  // 아이템 개수
+    int T;  // 배낭 무게 개수
+    vector<int> w, p, t;
+    map<pair<int, int>, int> P;
+    vector<pair<int, int>> wp;  // 무게 이익 쌍
+    
     cin >> n;
-    items.resize(n+1);
-    map<pair<int,int>, int> P;
-
-    for(int i=1;i<=n;i++){
-        cin >>items[i].weight;
+    w.resize(n);
+    p.resize(n);
+    wp.resize(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> w[i];
     }
-    for(int i=1;i<=n;i++){
-        cin >>items[i].profit;
+    
+    for (int i = 0; i < n; i++) {
+        cin >> p[i];
     }
-    for(int i=1;i<=n;i++){
-        items[i].profit_per_unit = items[i].profit / items[i].weight;
+    
+    for (int i = 0; i < n; i++) {
+        wp[i] = make_pair(w[i], p[i]);
     }
-
-    sort(items.begin()+1,items.end(),compare_item);
-
+    
+    // 단위무게당 이익의 내림차순으로 무게이익쌍 정렬
+    sort(wp.begin(), wp.end(), [](pair<int, int> a, pair<int, int> b) {
+        return a.second/a.first > b.second/b.first;
+    });
+    
+    // wp 인덱스 0번 사용 안함
+    wp.insert(wp.begin(), make_pair(0, 0));
+   
+    // 배낭무게 입력
     cin >> T;
     
-    while(T-- >0){
-
-        cin >> W;
-        knapsack3(n,W,items,P);
-        cout << P[make_pair(n,W)] << endl;
-
-        for(auto it = P.begin(); it!=P.end();it++){
-            cout << it->first.first << " " << it->first.second << " " << it->second << endl; 
-        } 
-        P.clear();
+    t.resize(T);
+    for (int i = 0; i < T; i++) {
+        cin >> t[i];
     }
+    
+    // 배낭 무게 개수 T번 반복
+    for(int k = 0; k < T; k++)
+    {
+        P.clear();
+        // maxprofit 출력
+        cout << knapsack3(n, t[k], wp, P) << endl;
+        
+        // map의 키를 vector에 저장
+        vector<pair<int, int>> v;
+        map<pair<int, int>, int>::iterator iter;
+        for (iter = P.begin(); iter != P.end(); iter++) {
+            v.push_back((*iter).first);
+        }
+        
+        // vector에 저장한 map의 키 pair를 first와 second 모두 오름차순 정렬
+        sort(v.begin(), v.end(), [](pair<int, int> a, pair<int, int> b) {
+            if(a.first == b.first)
+                return a.second < b.second;
+            else return a.first < b.first;
+        });
+
+        // 정렬된 key pair와 value 값 출력
+        for (int i = 0; i < v.size(); i++) {
+            cout << v[i].first << " " << v[i].second << " " << P[(make_pair(v[i].first, v[i].second))];
+            if(i != v.size()-1)
+                cout << endl;
+        }
+        
+        if(k != T-1)
+            cout << endl;
+    }
+        
+    
+    return 0;
 }

@@ -1,98 +1,105 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
-
-// Data structure
-typedef struct item* item_ptr;
-typedef struct item{
-    int weight;
-    int profit;
-    int profit_per_unit;
-}item_t;
-
-
-// Global variable
-vector<item_t> items;
-vector<item_t> printweight;
-vector<int> include;
-vector<int> bestset;
-
-int n,W, maxprofit;
+int n;  // 아이템 개수
+int W;  // 배낭 무게
+int maxprofit = 0;
 float bound;
+vector<int> include, bestset, w, p;
+vector<pair<int, int>> wp;  // 무게 이익 쌍
 
-// Functions
-bool compare_item(item_t i, item_t j) {
-    if (i.profit_per_unit > j.profit_per_unit)
-        return true;
-    return false;
-};
+bool promising(int i, int profit, int weight)
+{
+    int j, k, totweight;
 
-bool promising(int i, int profit, int weight) {
-    int j, k, totweight; //
-    if(weight >= W){
-         cout << i << " " << weight << " " << profit << " " << bound << " " << maxprofit << endl;
+    if(weight >= W)
         return false;
-    }
-    else{
+    else {
         j = i + 1;
         bound = profit;
         totweight = weight;
-        while(j <= n && totweight + items[j].weight <= W){
-            totweight += items[j].weight;
-            bound += items[j].profit; 
+        while (j <= n && totweight + wp[j].first <= W)
+        {
+            totweight += wp[j].first;
+            bound += wp[j].second;
             j++;
         }
         k = j;
         if(k <= n)
-            bound += (W - totweight) * ((float) items[k].profit/items[k].weight);
-            cout << i << " " << weight << " " << profit << " " << bound << " " << maxprofit << endl;
-        return (bound > maxprofit);
+            bound += (W - totweight) * ((float)wp[k].second / wp[k].first);
+
+        return bound > maxprofit;
     }
 }
 
-void knapsack4(int i,int profit,int weight){
-    if(weight <= W && profit > maxprofit){
-        maxprofit = profit; 
-        copy(include.begin(), include.end(), bestset.begin()); //c++ copy 함수를 이용하여 배열 복사
-        // copy from include to bestset.
+void knapsack4(int i, int profit, int weight)
+{
+    if(weight <= W && profit > maxprofit)
+    {
+        maxprofit = profit;
+        copy(include.begin(), include.end(), bestset.begin());
     }
-
-    if(i<=n && promising(i, profit, weight)) {
+    if(promising(i, profit, weight))
+    {
+        
+        
+        cout << i << " " << weight << " " << profit << " " << bound << " " << maxprofit << endl;
         include[i+1] = true;
-        knapsack4(i+1, profit + items[i+1].profit, weight + items[i+1].weight);
-        include[i+1] = false; 
+        knapsack4(i+1, profit + wp[i+1].second, weight + wp[i+1].first);
+        include[i+1] = false;
         knapsack4(i+1, profit, weight);
     }
+    else
+    {
+        cout << i << " " << weight << " " << profit << " " << bound << " " << maxprofit << endl;
+    }
+    
 }
+int main()
+{
+    cin >> n;
+    cin >> W;
+    
+    w.resize(n+1);
+    p.resize(n+1);
+    wp.resize(n);
+    include.resize(n+1);
+    bestset.resize(n+1);
 
-// Main
-int main(){
-    cin >> n >> W;
-    items.resize(n+1);
-    include.resize(n+1); bestset.resize(n+1);
-
-    for(int i=1;i<=n;i++){
-        cin >>items[i].weight;
+    
+    for (int i = 0; i < n; i++) {
+        cin >> w[i];
     }
-    for(int i=1;i<=n;i++){
-        cin >>items[i].profit;
+    
+    for (int i = 0; i < n; i++) {
+        cin >> p[i];
     }
-    for(int i=1;i<=n;i++){
-        items[i].profit_per_unit = items[i].profit / items[i].weight;
+    for (int i = 0; i < n; i++) {
+        wp[i] = make_pair(w[i], p[i]);
     }
-
-    //배열 1부터 시작했으니깐 begin +1
-    sort(items.begin()+1,items.end(),compare_item);
-
-    maxprofit =0;
-    knapsack4(0,0,0);
-    cout <<maxprofit <<endl;
-
-    for(int i=1;i<=n;i++){
-        if(bestset[i] == true){
-            cout << items[i].weight << " " << items[i].profit << endl;
-        }
+    // 단위무게당 이익의 내림차순으로 무게이익쌍 정렬
+    sort(wp.begin(), wp.end(), [](pair<int, int> a, pair<int, int> b) {
+        return a.second/a.first > b.second/b.first;
+    });
+    
+    // 인덱스 0번 사용 안함
+    wp.insert(wp.begin(), make_pair(0, 0));
+    w.insert(w.begin(), 0);
+    p.insert(p.begin(), 0);
+    
+    // knapsack
+    knapsack4(0, 0, 0);
+    
+    // maxprofit 출력
+    cout << maxprofit;
+    
+    // 담은 아이템의 무게, 이익 출력
+    for (int i = 1; i <= n; i++) {
+        if(bestset[i])
+            cout << endl << wp[i].first << " " << wp[i].second;
     }
+    return 0;
 }
