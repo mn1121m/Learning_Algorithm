@@ -9,7 +9,7 @@ int maxprofit = 0;  // 최대이익
 int W;              // 배낭무게
 int n;              // 아이템 개수
 vector<int> w, p;   // 무게, 이익
-vector<pair<int, int>> wp;  // 무게 이익 쌍
+vector<pair<int, int> > wp;  // 무게 이익 쌍
 
 
 typedef struct node* node_pointer;
